@@ -2,11 +2,18 @@ apiVersion: serving.kserve.io/v1alpha1
 kind: ServingRuntime
 metadata:
   name: {{ .Values.servingRuntime.name }}
+  annotations:
+    opendatahub.io/accelerator-name: ''
+    opendatahub.io/apiProtocol: REST
+    opendatahub.io/hardware-profile-name: {{ .Values.servingRuntime.hardwareProfileName }}
+    opendatahub.io/recommended-accelerators: {{ .Values.servingRuntime.recommendedAccelerators }}
+    opendatahub.io/template-display-name: {{ .Values.servingRuntime.templateDisplayName }}
+    opendatahub.io/template-name: {{ .Values.servingRuntime.templateName }}
+    openshift.io/display-name: {{ .Values.servingRuntime.name }}
 spec:
   annotations:
-    {{- range $key, $value := .Values.servingRuntime.annotations }}
-    {{ $key }}: {{ $value | quote }}
-    {{- end }}
+    prometheus.io/path: /metrics
+    prometheus.io/port: '8080'
   containers:
     - name: kserve-container
       image: {{ .Values.servingRuntime.container.image | quote }}

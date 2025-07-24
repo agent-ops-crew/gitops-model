@@ -45,9 +45,10 @@ inferenceService:
 # Serving Runtime Configuration
 servingRuntime:
   name: granite-33-2b-instruct
-  annotations:
-    prometheus.io/path: /metrics
-    prometheus.io/port: '8080'
+  hardwareProfileName: nvidiacomgpu-rbb4w-serving
+  templateDisplayName: vLLM NVIDIA GPU ServingRuntime for KServe
+  recommendedAccelerators: '["nvidia.com/gpu"]'
+  templateName: vllm-cuda-runtime
   container:
     image: 'quay.io/modh/vllm@sha256:79e1f24bba1d3e694f47f66ba9f8184e70310a10b77bf11c0febd0c926234950'
     resources:

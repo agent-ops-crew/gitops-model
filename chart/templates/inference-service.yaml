@@ -3,13 +3,11 @@ kind: InferenceService
 metadata:
   name: {{ .Values.inferenceService.name }}
   annotations:
-    {{- range $key, $value := .Values.inferenceService.annotations }}
-    {{ $key }}: {{ $value | quote }}
-    {{- end }}
+    openshift.io/display-name: {{ .Values.inferenceService.name }}
+    serving.kserve.io/deploymentMode: RawDeployment
   labels:
-    {{- range $key, $value := .Values.inferenceService.labels }}
-    {{ $key }}: {{ $value | quote }}
-    {{- end }}
+    networking.kserve.io/visibility: exposed
+    opendatahub.io/dashboard: 'true'
 spec:
   predictor:
     maxReplicas: {{ .Values.inferenceService.predictor.maxReplicas }}
