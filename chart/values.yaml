@@ -45,6 +45,7 @@ inferenceService:
 # Serving Runtime Configuration
 servingRuntime:
   name: granite-33-2b-instruct
+  modelName: granite-33-2b-instruct
   hardwareProfileName: nvidiacomgpu-rbb4w-serving
   templateDisplayName: vLLM NVIDIA GPU ServingRuntime for KServe
   recommendedAccelerators: '["nvidia.com/gpu"]'
