@@ -1,0 +1,41 @@
+apiVersion: serving.kserve.io/v1alpha1
+kind: ServingRuntime
+metadata:
+  name: {{ .Values.servingRuntime.name }}
+spec:
+  annotations:
+    {{- range $key, $value := .Values.servingRuntime.annotations }}
+    {{ $key }}: {{ $value | quote }}
+    {{- end }}
+  containers:
+    - name: kserve-container
+      image: {{ .Values.servingRuntime.container.image | quote }}
+      command:
+        - python
+        - -m
+        - vllm.entrypoints.openai.api_server
+      args:
+        - '--port=8080'
+        - '--model=/mnt/models'
+        - '--served-model-name={{.Name}}'
+      env:
+        - name: HF_HOME
+          value: /tmp/hf_home
+      ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+      resources:
+        {{- toYaml .Values.servingRuntime.container.resources | nindent 8 }}
+      volumeMounts:
+        - mountPath: /dev/shm
+          name: shm
+  multiModel: false
+  supportedModelFormats:
+    - autoSelect: true
+      name: vLLM
+  volumes:
+    - emptyDir:
+        medium: Memory
+        sizeLimit: 2Gi
+      name: shm

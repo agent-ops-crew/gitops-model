@@ -1,0 +1,34 @@
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: {{ .Values.inferenceService.name }}
+  annotations:
+    {{- range $key, $value := .Values.inferenceService.annotations }}
+    {{ $key }}: {{ $value | quote }}
+    {{- end }}
+  labels:
+    {{- range $key, $value := .Values.inferenceService.labels }}
+    {{ $key }}: {{ $value | quote }}
+    {{- end }}
+spec:
+  predictor:
+    maxReplicas: {{ .Values.inferenceService.predictor.maxReplicas }}
+    minReplicas: {{ .Values.inferenceService.predictor.minReplicas }}
+    model:
+      modelFormat:
+        name: vLLM
+      name: {{ .Values.inferenceService.predictor.model.name }}
+      resources:
+        limits:
+          {{- toYaml .Values.inferenceService.predictor.model.resources.limits | nindent 10 }}
+        requests:
+          {{- toYaml .Values.inferenceService.predictor.model.resources.requests | nindent 10 }}
+      runtime: {{ .Values.inferenceService.predictor.model.runtime }}
+      args:
+        {{- toYaml .Values.inferenceService.predictor.model.args | nindent 8 }}
+      storage:
+        uri: {{ .Values.inferenceService.predictor.model.storage.uri }}
+    {{- with .Values.inferenceService.predictor.tolerations }}
+    tolerations:
+      {{- toYaml . | nindent 6 }}
+    {{- end }}

@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: granite-model
+  namespace: openshift-gitops
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/agent-ops-crew/gitops-model.git
+    targetRevision: HEAD
+    path: chart
+    helm:
+      parameters:
+        - name: inferenceService.name
+          value: granite-33-2b-instruct
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: model-as-a-service
+  syncPolicy:
+    automated:
+      selfHeal: true

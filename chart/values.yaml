@@ -1,0 +1,61 @@
+# Default values for model-serving
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+inferenceService:
+  name: granite-33-2b-instruct
+  annotations:
+    openshift.io/display-name: granite-33-2b-instruct
+    serving.knative.openshift.io/enablePassthrough: "true"
+    serving.kserve.io/deploymentMode: RawDeployment
+    sidecar.istio.io/inject: "true"
+    sidecar.istio.io/rewriteAppHTTPProbers: "true"
+  labels:
+    opendatahub.io/dashboard: "true"
+  
+  predictor:
+    minReplicas: 1
+    maxReplicas: 1
+    
+    model:
+      name: ""
+      runtime: granite-33-2b-instruct
+      
+      resources:
+        limits:
+          cpu: '2'
+          memory: 16Gi
+          nvidia.com/gpu: '1'
+        requests:
+          cpu: '1'
+          memory: 8Gi
+          nvidia.com/gpu: '1'
+      
+      args:
+        - "--dtype=float16"
+        - "--enforce-eager"
+      
+      storage:
+        uri: oci://quay.io/redhat-ai-services/modelcar-catalog:granite-3.3-2b-instruct
+    tolerations:
+      - effect: NoSchedule
+        key: nvidia.com/gpu
+        operator: Exists
+
+# Serving Runtime Configuration
+servingRuntime:
+  name: granite-33-2b-instruct
+  annotations:
+    prometheus.io/path: /metrics
+    prometheus.io/port: '8080'
+  container:
+    image: 'quay.io/modh/vllm@sha256:79e1f24bba1d3e694f47f66ba9f8184e70310a10b77bf11c0febd0c926234950'
+    resources:
+      limits:
+        cpu: '2'
+        memory: 16Gi
+        nvidia.com/gpu: '1'
+      requests:
+        cpu: '1'
+        memory: 8Gi
+        nvidia.com/gpu: '1'

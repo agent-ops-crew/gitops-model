@@ -1,0 +1,9 @@
+apiVersion: v2
+name: model-serving
+version: 0.1.0
+appVersion: "1.0.0"
+description: A Helm chart for serving AI models with KServe
+maintainers:
+  - name: Your Name
+    email: your.email@example.com
+type: application
