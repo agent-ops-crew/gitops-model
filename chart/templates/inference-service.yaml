@@ -24,8 +24,7 @@ spec:
       runtime: {{ .Values.inferenceService.predictor.model.runtime }}
       args:
         {{- toYaml .Values.inferenceService.predictor.model.args | nindent 8 }}
-      storage:
-        uri: {{ .Values.inferenceService.predictor.model.storage.uri }}
+      storageUri: {{ .Values.inferenceService.predictor.model.storage.uri }}
     {{- with .Values.inferenceService.predictor.tolerations }}
     tolerations:
       {{- toYaml . | nindent 6 }}
