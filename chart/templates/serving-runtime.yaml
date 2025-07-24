@@ -5,10 +5,10 @@ metadata:
   annotations:
     opendatahub.io/accelerator-name: ''
     opendatahub.io/apiProtocol: REST
-    opendatahub.io/hardware-profile-name: {{ .Values.servingRuntime.hardwareProfileName }}
-    opendatahub.io/recommended-accelerators: {{ .Values.servingRuntime.recommendedAccelerators }}
-    opendatahub.io/template-display-name: {{ .Values.servingRuntime.templateDisplayName }}
-    opendatahub.io/template-name: {{ .Values.servingRuntime.templateName }}
+    opendatahub.io/hardware-profile-name: {{ .Values.servingRuntime.hardwareProfileName | quote }}
+    opendatahub.io/recommended-accelerators: {{ .Values.servingRuntime.recommendedAccelerators | quote }}
+    opendatahub.io/template-display-name: {{ .Values.servingRuntime.templateDisplayName | quote }}
+    opendatahub.io/template-name: {{ .Values.servingRuntime.templateName | quote }}
     openshift.io/display-name: {{ .Values.servingRuntime.name }}
 spec:
   annotations:
