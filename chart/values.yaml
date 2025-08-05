@@ -51,7 +51,7 @@ servingRuntime:
   recommendedAccelerators: '["nvidia.com/gpu"]'
   templateName: vllm-cuda-runtime
   container:
-    image: 'quay.io/modh/vllm@sha256:79e1f24bba1d3e694f47f66ba9f8184e70310a10b77bf11c0febd0c926234950'
+    image: 'quay.io/modh/vllm@sha256:3abf5abad8c4f1acd4c15f396856c09f4e93070ee70c8a82690ec5dd8004856e'
     resources:
       limits:
         cpu: '2'
